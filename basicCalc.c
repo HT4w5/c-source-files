@@ -5,9 +5,9 @@ char s2;
 
 int getCommand()
 {
-    s1 = 0;
+    s1 = -1;
     scanf("%d", &s1);
-    if(s1 == 0)
+    if(s1 == -1)
     {
         s1 = getchar();
         if(s1 == 113)
