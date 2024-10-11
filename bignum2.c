@@ -29,16 +29,32 @@ void readbigInt(bigInt *ptr)
 void printbigInt(bigInt big)
 {
     int len = strlen(big);
-    for(int i=len-1;i>=0;i--)
+    for (int i = len - 1; i >= 0; i--)
     {
         putchar(big[i]);
     }
 }
 
+void bigAdd(bigInt a, bigInt b, bigInt *out)
+{
+    clear(out);
+    for (int i = 0; i < PRECISION; i++)
+    {
+        (*out)[i] = a[i] + b[i] - '0';
+        if ((*out)[i] > '9')
+        {
+            (*out)[i] -= 10;
+            (*out)[i + 1] += 1;
+        }
+    }
+}
+
 int main()
 {
-    bigInt a;
+    bigInt a, b, sum;
     readbigInt(&a);
-    printbigInt(a);
+    readbigInt(&b);
+    bigAdd(a, b, &sum);
+    printbigInt(sum);
     return 0;
 }

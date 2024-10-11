@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int s1, s3;
+int s1 = 0, s1In, s3;
 char s2;
 
 int getCommand()
@@ -21,14 +21,24 @@ int getCommand()
     scanf("%d", &s3);
     return 0;
     */
-    s1 = getchar();
-    if (s1 == 113)
+    s1In = getchar();
+    if (s1In == 113)
     {
         return 1;
     }
-    s1 -= '0';
-    scanf("%c%d", &s2, &s3);
-    getchar();                // Clear LF in stdin buffer to prevent fault.
+    else
+    {
+        do
+        {
+            s1 += (s1In - '0');
+            s1 *= 10;
+            s1In = getchar();
+        } while ('0' <= s1In && s1In <= '9');
+        s1 /= 10;
+        s2 = s1In;
+    }
+    scanf("%d", &s3);
+    getchar(); // Clear LF in stdin buffer to prevent fault.
     return 0;
 }
 
