@@ -12,9 +12,14 @@ typedef struct linkNode
 typedef struct linkPipe
 {
     node *firstPtr;
-    // node *lastPtr;
+    node *lastPtr;
     int length;
 } pipe;
+
+void forwardNodePtr(node **ptr)
+{
+    *ptr = (*ptr)->next;
+}
 
 node *createLinkNode()
 {
@@ -34,7 +39,7 @@ pipe *createPipe()
 {
     pipe *newPipe = malloc(sizeof(pipe));
     newPipe->firstPtr = 0;
-    // newPipe->lastPtr = 0;
+    newPipe->lastPtr = 0;
     newPipe->length = 0;
     return newPipe;
 }
@@ -47,16 +52,24 @@ void destroyLinkNode(node *tgtNode)
 
 void destroyPipe(pipe *tgtPipe)
 {
-    for (int i = 0; i < tgtPipe->length; i++)
+    /*
+    for (int i = 0; i < tgtPipe->length; i++)  Wrong. Node pointers are not continuous.
     {
         destroyLinkNode(tgtPipe->firstPtr + i);
     }
-    free(tgtPipe);
-}
+    */
+    if (tgtPipe->length != 0)
+    {
+        node *currNode;
+        do
+        {
+            currNode = tgtPipe->firstPtr;
+            forwardNodePtr(&(tgtPipe->firstPtr));
+            destroyLinkNode(currNode);
+        } while (tgtPipe->firstPtr->next != NULL);
+    }
 
-void forwardNodePtr(node **ptr)
-{
-    *ptr = (*ptr)->next;
+    free(tgtPipe);
 }
 
 int *pipeRead(pipe *tgtPipe)
@@ -86,15 +99,17 @@ void pipeWrite(int *input, pipe *tgtPipe)
     if (tgtPipe->length == 0)
     {
         tgtPipe->firstPtr = createLinkNode();
+        tgtPipe->lastPtr = tgtPipe->firstPtr;
     }
     else
     {
-        (tgtPipe->firstPtr + tgtPipe->length - 1)->next = createLinkNode();
+        tgtPipe->lastPtr->next = createLinkNode();
+        tgtPipe->lastPtr = tgtPipe->lastPtr->next;
     }
     tgtPipe->length++;
     for (int i = 0; i < 3; i++)
     {
-        *((tgtPipe->firstPtr + tgtPipe->length - 1)->value + i) = *(input + i);  // TODO: Syntex error.
+        *(tgtPipe->lastPtr->value + i) = *(input + i); // TODO: Segfault.
     }
 }
 
@@ -139,10 +154,10 @@ int main()
     }
 
     // Print result.
-
-    printf("%d", triTuples->length);
+    int length = triTuples->length;
+    printf("%d\n", length);
     int *triTuple;
-    for (int i = 1; i <= triTuples->length; i++)
+    for (int i = 1; i <= length; i++)
     {
         triTuple = pipeRead(triTuples);
         printf("%d %d %d\n", *(triTuple + 0), *(triTuple + 1), *(triTuple + 2));
