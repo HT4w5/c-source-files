@@ -1,43 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void swap(int *n1, int *n2)
-{
-    *n1 = *n1 ^ *n2;
-    *n2 = *n1 ^ *n2;
-    *n1 = *n1 ^ *n2;
-}
-
 int main()
 {
-    int n, num[100];
-    scanf("%d", &n);
-    for (int i = 1; i <= n; i++)
-    {
-        scanf("%d", &num[i - 1]);
-    }
-    for (int i = 1; i <= n; i++)
-    {
-        for (int j = i; j <= n; j++)
-        {
-            if (num[i - 1] > num[j - 1])
-            {
-                swap(&num[i - 1], &num[j - 1]);
-            }
-        }
-    }
-    printf("%d", num[0]);
-    return 0;
-}
-
-int isTriangle(int a,int b,int c)
-{
-
-}
-
-int main()
-{
-    int n, maxCirc = 0;
+    int n, maxCirc = 0, Circ;
     scanf("%d", &n);
     int *sticks = malloc(sizeof(int) * n);
     for (int i = 0; i < n; i++)
@@ -47,12 +13,24 @@ int main()
 
     for (int i = 0; i < n; i++)
     {
-        for (int j = i; j < n; j++)
+        for (int j = i + 1; j < n; j++)
         {
-            for (int k = j; k < n; k++)
+            for (int k = j + 1; k < n; k++)
             {
-
+                if (*(sticks + i) + *(sticks + j) > *(sticks + k) && *(sticks + i) + *(sticks + k) > *(sticks + j) && *(sticks + j) + *(sticks + k) > *(sticks + i))
+                {
+                    Circ = *(sticks + i) + *(sticks + j) + *(sticks + k);
+                    if (Circ > maxCirc)
+                    {
+                        maxCirc = Circ;
+                    }
+                }
             }
         }
     }
+
+    free(sticks);
+    
+    printf("%d", maxCirc);
+    return 0;
 }
