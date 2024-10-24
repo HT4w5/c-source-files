@@ -5,22 +5,19 @@ int main(void)
 {
     char *str = (char *)malloc(sizeof(char) * 51);
     char *subStr = (char *)malloc(sizeof(char) * 51);
-    int count;
+    int count = 0;
     // Get str.
     for (int i = 0; 1; i++)
     {
         if ((str[i] = getchar()) < 32)
         {
-            if (str[i] == '\r')
-            {
-                getchar();
-            }
             str[i] = '\0';
             break;
         }
     }
 
     // Get subStr.
+    getchar();
     for (int i = 0; 1; i++)
     {
         if ((subStr[i] = getchar()) < 32)
@@ -31,9 +28,7 @@ int main(void)
     }
 
     // Determine count.
-    char *strPtr = str, *subStrPtr;
-
-    subStrPtr = subStr;
+    char *strPtr = str, *subStrPtr = subStr;
     do
     {
         if (*subStrPtr != *strPtr)
