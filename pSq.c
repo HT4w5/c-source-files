@@ -1,22 +1,35 @@
 #include <stdio.h>
 
-int maxSqFactorCount(int num)
+int minSqFactorCount(int num)
 {
-    int minCount = num;
-    for (int i = 2; num >= i * i; i++)
+    int maxSqrt = 1, count = 0;
+    // Find max square.
+    while (num >= maxSqrt * maxSqrt)
     {
-        if (num % (i * i) == 0)
+        ++maxSqrt;
+    }
+    --maxSqrt;
+
+    // Turncate num.
+    while (num > 0)
+    {
+        if (num >= maxSqrt * maxSqrt)
         {
-            minCount = num / (i * i);
+            num -= maxSqrt * maxSqrt;
+            ++count;
+        }
+        else
+        {
+            --maxSqrt;
         }
     }
-    return minCount;
+    return count;
 }
 
 int main(void)
 {
     int n;
     scanf("%d", &n);
-    printf("%d", maxSqFactorCount(n));
+    printf("%d", minSqFactorCount(n));
     return 0;
 }
