@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include <limits.h>
 
 int minSqFactorCount(int num)
 {
-    int maxSqrt = 1, count = 0;
+    int maxSqrt = 1, count = 0, minCount = INT_MAX, sqrt, numT;
     // Find max square.
     while (num >= maxSqrt * maxSqrt)
     {
@@ -10,20 +11,31 @@ int minSqFactorCount(int num)
     }
     --maxSqrt;
 
-    // Turncate num.
-    while (num > 0)
+    for (; maxSqrt > 0; --maxSqrt)
     {
-        if (num >= maxSqrt * maxSqrt)
+        sqrt = maxSqrt;
+        numT = num;
+        count = 0;
+        // Turncate num.
+        while (numT > 0)
         {
-            num -= maxSqrt * maxSqrt;
-            ++count;
+            if (numT >= sqrt * sqrt)
+            {
+                numT -= sqrt * sqrt;
+                ++count;
+            }
+            else
+            {
+                --sqrt;
+            }
         }
-        else
+        if (count < minCount)
         {
-            --maxSqrt;
+            minCount = count;
         }
     }
-    return count;
+
+    return minCount;
 }
 
 int main(void)
