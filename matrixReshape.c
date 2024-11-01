@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 int reshape(int *orig, int *new, int orow, int ocol, int row, int col)
 {
@@ -34,22 +33,38 @@ int main(void)
     int new_mat[r][c];
     if (reshape((int *)mat, (int *)new_mat, m, n, r, c))
     {
-        r = m;
-        c = n;
-    }
-    for (int i = 0; i < r; ++i)
-    {
-        for (int j = 0; j < c; ++j)
+        for (int i = 0; i < m; ++i)
         {
-            printf("%d", new_mat[i][j]);
-            if (j != c - 1)
+            for (int j = 0; j < n; ++j)
             {
-                printf(" ");
+                printf("%d", mat[i][j]);
+                if (j != n - 1)
+                {
+                    printf(" ");
+                }
+            }
+            if (i != m - 1)
+            {
+                printf("\n");
             }
         }
-        if (i != r - 1)
+    }
+    else
+    {
+        for (int i = 0; i < r; ++i)
         {
-            printf("\n");
+            for (int j = 0; j < c; ++j)
+            {
+                printf("%d", new_mat[i][j]);
+                if (j != c - 1)
+                {
+                    printf(" ");
+                }
+            }
+            if (i != r - 1)
+            {
+                printf("\n");
+            }
         }
     }
 }
