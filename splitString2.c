@@ -90,7 +90,7 @@ void split_string(char tgt[][100], const char *src, const char *dlim)
             }
         }
     }
-    if (fsp != next && next != NULL)
+    if (fsp != next || next == NULL)
     {
         append_tgt(tgt, tgt_i, ssp, fsp - 1);
     }
