@@ -76,5 +76,11 @@ int main(void)
         }
     }
 
+    // Free memory.
+    for (int i = 0; i < n_appr; i++)
+    {
+        free(appr_list[i]);
+    }
+    free(appr_list);
     return 0;
 }
