@@ -22,7 +22,6 @@ int main(void)
     record_t records[20];
     memset(&records, 0, sizeof(records));
 
-
     for (uint i = 0; i < n_ent; i++)
     {
         n_rec += read_record_entry(records, n_rec);
@@ -50,7 +49,7 @@ int is_present(record_t records[], const char *name)
 {
     for (int i = 0; records[i].name[0] != '\0'; i++)
     {
-        if (strcmp(records[i].name, name)==0)
+        if (strcmp(records[i].name, name) == 0)
         {
             return i;
         }
@@ -80,13 +79,16 @@ uint read_record_entry(record_t records[], int index)
 void sort_record(record_t records[], uint size)
 {
     // Use bubble sort to achieve stable sort.
-    for (uint i = 0; i < size - 1; i++)
+    int next_it = 1;
+    while (next_it)
     {
-        for (uint j = i + 1; j < size; j++)
+        next_it = 0;
+        for (int i = 0; i < size - 1; i++)
         {
-            if (records[i].score < records[j].score)
+            if (records[i].score < records[i + 1].score)
             {
-                swap_record(&records[i], &records[j]);
+                swap_record(&records[i], &records[i + 1]);
+                next_it = 1;
             }
         }
     }
